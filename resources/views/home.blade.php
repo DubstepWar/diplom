@@ -8,7 +8,10 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    <p>хаю хай</p>
+                    <button class=" btn btn-success">
+                        <a href="/parse">parse</a>
+                    </button>
+
                 </div>
             </div>
         </div>
