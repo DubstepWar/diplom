@@ -49,12 +49,27 @@ class ParseController extends Controller
             $viewsArr[] = $clearViews;
         }
         $viewsTitlesArr = array_combine($viewsArr,$titlesArr);
-        foreach ($viewsTitlesArr as $key=>$val){
+
+        foreach ($viewsTitlesArr as $view => $title){
             $article = new Article();
-            $article->title = $val;
-            $article->views = $key;
-            $article->save();
+            $allArticles = $article->all();
+//            dd($allArticles->title);
+            foreach ($allArticles as $arrWithArticleData){
+                if ($arrWithArticleData->title != $title){
+                    $article->title = $title;
+                    $article->views = $view;
+                    $article->save();
+                }
+            }
+
+
         }
+//        foreach ($viewsTitlesArr as $key=>$val){
+//            $article = new Article();
+//            $article->title = $val;
+//            $article->views = $key;
+//            $article->save();
+//        }
 
         dd($viewsArr, $titlesArr);
     }
