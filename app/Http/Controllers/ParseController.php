@@ -91,7 +91,7 @@ dd($titlesArr);
         dd($viewsArr, $titlesArr);
     }
 
-    public function korrespondent(){
+    public function MyKorrespondent(){
         $korrespondentMainPage = new Htmldom('https://korrespondent.net/all/ukraine/');
         $divWithNews = $korrespondentMainPage->find('div[class="article article_rubric_top"]');
         $hrefsToArticlesArr = []; //тут лежат ссылки на статьи с главной страницы новостей
@@ -119,7 +119,7 @@ dd($titlesArr);
                     $article->title = $titles;
                     $article->views = $clearViews;
                     $article->save();
-                    dd('ВФТ ВООБЩЕ');
+                    //dd('ВФТ ВООБЩЕ');
                 } else {
                     foreach ($allArticles as $arrWithArticleData) {
 //                    dd($arrWithArticleData->title, $title);
@@ -139,5 +139,43 @@ dd($titlesArr);
           dd($viewsArr, $titlesArr);
     }
 
+    public function korrespondent()
+    {
+        try {
+            $korrespondentMainPage = new Htmldom('https://korrespondent.net/all/ukraine/');
+        } catch (\Exception $e) {
+            return '';
+        }
+        $divWithNews = $korrespondentMainPage->find('div[class="article article_rubric_top"]');
+        $allArticles = Article::all()->keyBy('title')->toArray(); //keyBy('title') - ключи ассоц массива - тайтлы
+        dd($allArticles);
+        $created = 0;
+        foreach ($divWithNews as $item) {
+            try {
+                $korrespondentNewsPage = new Htmldom($item->children(0)->href);
+            } catch (\Exception $e) {
+                return '    ';
+            }
+            $divWithViewsAndTitles = $korrespondentNewsPage->find('div[class="post-item clearfix"]'); //див с просмотрами
+            foreach ($divWithViewsAndTitles as $div) {
+                // ПРОСМОТРЫ
+                $stringWithViews = $div->children(2)->children(0)
+                    ->children(1)->children(1)->plaintext; //тяну просмотры
+                $clearViews = filter_var($stringWithViews, FILTER_SANITIZE_NUMBER_INT); //стринг ту инт
+                // ТАЙТЛЫ
+                $title = $div->children(0)->plaintext;
+                // ЗАНОШУ В БД
+                if (!isset($allArticles[$title])) { //провер есть ли такой тайтл в бд
+                    $article = new Article();
+                    $article->title = $title;
+                    $article->views = $clearViews;
+                    if ($article->save()) {
+                        $created++;
+                    }
+                }
+            }
+        }
+        echo "Создано $created записей";
+    }
 
 }
