@@ -11,6 +11,11 @@
                     <button class=" btn btn-success">
                         <a href="/parse">parse</a>
                     </button>
+                    <button class=" btn btn-success">
+                        <a href="/korresp_chart">KORRESP</a>
+                    </button>
+
+
 
                 </div>
             </div>

@@ -15,4 +15,5 @@ class KorrespondentChart extends Chart
     {
         parent::__construct();
     }
+
 }
