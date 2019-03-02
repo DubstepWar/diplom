@@ -16,15 +16,17 @@
                         <a href="/korresp_chart">KORRESP</a>
                     </button>
 
+
+                    <canvas id="myChart"></canvas>
+
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<canvas id="myChart"></canvas>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js" charset="utf-8"></script>
-<script src="/public/js/JSchart.js"></script>
+
 
 
 @endsection
