@@ -17,8 +17,9 @@
                     <p>Получить свежие новости с сайта в базу данных</p>
                         <a class="btn btn-success" href="/parse">Получить</a>
                     <p>Показать график просмотров новостей</p>
-
                         <a class="btn btn-success" href="/korresp_chart">Показать</a>
+                    <p>CENSOR</p>
+                        <a class="btn btn-success" href="/censor_chart">Показать</a>
 
                 </div>
             </div>

@@ -7,7 +7,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/chart', 'ChartController@index')->name('chart');
 Route::get('/korresp_chart', 'ChartsController@korrespChart')->name('korrespChart');
-Route::get('/korresp_charts', 'ChartsController@show');
+Route::get('/censor_chart', 'ChartsController@censorChart')->name('censorChart');
 
 
 Auth::routes();

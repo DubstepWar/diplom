@@ -12,7 +12,8 @@ class ChartsController extends Controller
     public function korrespChart(){
         $this->korrespondent();
         $chart = new KorrespondentChart();
-        $articles = Article::all()->sortByDesc('created_at')->take(10);
+        $articles = Article::all()->sortByDesc('created_at')->where('source','==','koresp')->take(10);
+//dd($articles);
         $titlesArr = [];
         $viewsArr = [];
         foreach ($articles as $article){
@@ -32,7 +33,8 @@ class ChartsController extends Controller
             return '';
         }
         $divWithNews = $korrespondentMainPage->find('div[class="article article_rubric_top"]');
-        $allArticles = Article::all()->keyBy('title')->toArray(); //keyBy('title') - ключи ассоц массива - тайтлы
+        $allArticles = Article::all()->keyBy('title')->toArray();
+        //dd($divWithNews);//keyBy('title') - ключи ассоц массива - тайтлы
         $created = 0;
         foreach ($divWithNews as $item) {
             try {
@@ -43,15 +45,35 @@ class ChartsController extends Controller
             $title = $korrespondentNewsPage->find('.post-item__title')[0]->plaintext;
             $clearViews = $korrespondentNewsPage->find('.post-item__views')[0]->find('span')[0]->plaintext;
             // ЗАНОШУ В БД
+            //dd($title);
             if (!isset($allArticles[$title])) { //провер есть ли такой тайтл в бд
                 $article = new Article();
                 $article->title = $title;
                 $article->views = $clearViews;
+                $article->source = 'koresp';
                 if ($article->save()) {
                     $created++;
                 }
+
             }
         }
+    }
+
+    public function censorChart(){
+        $this->censor();
+
+        return view('censorView');
+    }
+
+    public function censor(){
+        $censorNewsPage = new Htmldom('https://censor.net.ua/news/all');
+        $allArticles = Article::all()->keyBy('title')->toArray();
+        $created = 0;
+        $title = $censorNewsPage->find('.item type2')->find('a')->plaintext;
+        dd($title);
+
+
+
     }
 
 }

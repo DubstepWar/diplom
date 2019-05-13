@@ -12,6 +12,7 @@ class ParseController extends Controller
     {
         try {
             $korrespondentMainPage = new Htmldom('https://korrespondent.net/all/ukraine/');
+
         } catch (\Exception $e) {
             return '';
         }
